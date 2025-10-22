@@ -25,8 +25,7 @@ let config = {
   recordConsoleLogs: true,
 };
 
-// NewRelicAgent.startAgent("AAb34f196e3ff23888d1296e8953e08f0d31b0231b-NRMA", "US",config);
-NewRelicAgent.startAgent("1", "8ebdddc3d726e9e948ae88720740d4faFFFFNRAL", "US",config);
+NewRelicAgent.startAgent("<ACCOUNT ID>", "<API KEY>", "<ENDPOINT>", config);
 LogBox.ignoreAllLogs();
 
 AppRegistry.registerComponent(appName, () => App);
