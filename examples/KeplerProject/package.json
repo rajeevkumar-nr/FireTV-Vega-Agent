@@ -1,35 +1,36 @@
 {
-  "name": "@amzn/sampleapp",
+  "name": "@amazon-devices/keplerproject",
   "version": "0.0.1",
+  "private": true,
   "files": [
     "dist"
   ],
   "scripts": {
-    "clean": "rm -rf node_modules buildinfo.json dist",
-    "start": "npx react-native start",
+    "clean": "rm -rf node_modules buildinfo.json dist build",
+    "start": "react-native start",
     "test": "jest --colors ",
     "test:snapshot": "jest --colors --updateSnapshot",
-    "lint": "eslint src tst --ext .ts,.tsx",
-    "lint:fix": "eslint src tst --ext .ts,.tsx --fix",
-    "compile": "tsc -p tsconfig.json",
-    "build": "npm run compile",
-    "release": "npm-run-all lint test compile"
+    "lint": "eslint src test --ext .ts,.tsx",
+    "lint:fix": "eslint src test --ext .ts,.tsx --fix",
+    "build:release": "react-native build-kepler --build-type Release",
+    "build:debug": "react-native build-kepler --build-type Debug",
+    "build:app": "npm-run-all build:release",
+    "build": "npm-run-all build:release",
+    "release": "npm-run-all lint test build:app"
   },
   "dependencies": {
-    "@amzn/react-native-kepler": "~2.0.0",
+    "@amazon-devices/react-native-kepler": "^2.0.0",
+    "newrelic-kepler-agent": "file:newrelic-kepler-agent-0.8.1.tgz",
     "react": "18.2.0",
-    "react-native": "0.72.0",
-    "newrelic-kepler-agent": "file:../../"
+    "react-native": "0.72.0"
   },
   "devDependencies": {
-    "@amzn/kepler-cli-platform": "^0",
-    "@babel/core": "^7.20.0",
-    "@babel/runtime": "^7.20.0",
-    "@babel/traverse": "7.22.8",
+    "@amazon-devices/kepler-cli-platform": "^0",
+    "@react-native-community/cli": "11.3.2",
     "@react-native/eslint-config": "0.72.2",
     "@react-native/metro-config": "^0.72.6",
-    "@react-native-community/cli": "11.3.2",
     "@testing-library/react-native": "^7.2.0",
+    "@tsconfig/react-native": "^3.0.2",
     "@types/jest": "^28.0.0",
     "@types/react": "^18.0.24",
     "@types/react-test-renderer": "^18.0.0",
@@ -47,10 +48,9 @@
   },
   "kepler": {
     "projectType": "application",
-    "appName": "sampleapp",
+    "appName": "KeplerProject",
     "targets": [
       "tv"
-    ],
-    "api": 0.1
+    ]
   }
 }

@@ -47,7 +47,6 @@ const styles = StyleSheet.create({
   focusedContainer: {
     borderBottomWidth: 5,
     borderBottomColor: '#ff9900',
-    opacity: 0.85,
   },
   linkTextContainer: {
     display: 'flex',

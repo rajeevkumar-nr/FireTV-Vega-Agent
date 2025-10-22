@@ -4,16 +4,28 @@
  * PROPRIETARY/CONFIDENTIAL.  USE IS SUBJECT TO LICENSE TERMS.
  */
 
-import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, Text, ImageBackground, View, Image} from 'react-native';
 import {Link} from './components/Link';
 import NewRelicAgent from 'newrelic-kepler-agent'
 
-let lastTime = 0;
+const images = {
+  kepler: require('./assets/kepler.png'),
+  learn: require('./assets/learn.png'),
+  support: require('./assets/support.png'),
+  build: require('./assets/build.png'),
+};
 
 export const App = () => {
+  const [image, setImage] = useState(images.kepler);
+  let lastTime = 0;
+
   const styles = getStyles();
+
   return(
+      <ImageBackground
+      source={require('./assets/background.png')}
+      style={styles.background}>
     <View style={styles.background}>
       <Link
             linkText={'Fetch'}
@@ -44,9 +56,9 @@ export const App = () => {
       <Link
             linkText={'Throw JS error'}
             onPress={() => {
-              let x = {}
-              // @ts-ignore
-              x.fire()
+              new Promise((resolve, reject) => {
+                reject(new Error('Unhandled promise rejection!'))
+              })
             }}
         />
       <Link
@@ -61,29 +73,8 @@ export const App = () => {
               NewRelicAgent.recordCustomEvent("KeplerMyEvent", {"one": 1, "name": "Joe"});
             }}
         />
-      <Link
-            linkText={'Record custom log'}
-            onPress= {() => {
-              NewRelicAgent.recordLog("Kepler log message", {"one": 1, "name": "Joe"});
-            }}
-        />
-      <Link
-            linkText={'Record custom metrics'}
-            onPress= {() => {
-              NewRelicAgent.recordGaugeMetric("kepler.randomNumber", Math.random() * 100)
-
-              let interval = 0
-              if (lastTime != 0) {
-                let now = Date.now()
-                interval = now - lastTime
-                lastTime = now
-              }
-              NewRelicAgent.recordCountMetric("kepler.randomCounter", Math.round(Math.random() * 10), interval)
-
-              NewRelicAgent.recordSummaryMetric("kepler.sampleSummary", 5, 0.001708826, 0.0005093, 0.004382655, interval)
-            }}
-        />
     </View>
+    </ImageBackground>
   );
 };
 
